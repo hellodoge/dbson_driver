@@ -73,7 +73,13 @@ def serialize_assoc(assoc: Dict[Serializable, Serializable],
                     buffer: BinaryIO):
     buffer.write(b'o')
     serialize_len(assoc, buffer)
-    for key, value in assoc.items():
+    assoc_list = assoc.items()
+    try:
+        assoc_list = sorted(assoc_list)
+    except TypeError:
+        # cannot sort, several types of keys
+        pass
+    for key, value in assoc_list:
         serialize(key, buffer)
         serialize(value, buffer)
 
