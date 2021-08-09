@@ -44,3 +44,11 @@ class Client:
             buffered_io.flush()
             s.close()
         return result
+
+
+def connect(host: str, port: int) -> Client:
+    client = Client(host, port)
+    response = client.ping()
+    if response.get(commands.SUCCESS_LABEL, False) != True:
+        raise ConnectionError('ping command failed')
+    return client

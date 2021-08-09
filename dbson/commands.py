@@ -10,6 +10,7 @@ OBJECT_NAME_LABEL = 'object'
 SELECTOR_LABEL = 'selector'
 DATA_LABEL = 'data'
 RESULT_OF_LABEL = 'result_of'
+SUCCESS_LABEL = 'success'
 
 
 def construct_set(*, collection_name: str, object_name: str,
