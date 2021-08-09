@@ -38,3 +38,11 @@ def construct_get(*, collection_name: str, object_name: str,
     if selector != "":
         command[SELECTOR_LABEL] = selector
     return command
+
+
+def construct_ping(**kwargs) -> Serializable:
+    command = {
+        COMMAND_LABEL: PING_COMMAND,
+        **kwargs
+    }
+    return command

@@ -28,6 +28,9 @@ class Client:
                                          selector=selector, **kwargs)
         return self.execute(command)
 
+    def ping(self, **kwargs):
+        return self.execute(commands.construct_ping(**kwargs))
+
     def send(self, data: Serializable) -> Serializable:
         return self.send_one_tcp(data)
 
