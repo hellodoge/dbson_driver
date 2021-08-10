@@ -1,9 +1,9 @@
-import struct
+from dbson.data_types import Object, Array, Associative
 from typing import BinaryIO
-from dbson.serializer import Serializable
+import struct
 
 
-def deserialize(s: BinaryIO) -> Serializable:
+def deserialize(s: BinaryIO) -> Object:
     deserializers = {
         b'i': deserialize_int,
         b'r': deserialize_float,
@@ -51,7 +51,7 @@ def deserialize_str(s: BinaryIO) -> str:
     return read_exact(s, length).decode('utf-8')
 
 
-def deserialize_array(s: BinaryIO) -> list:
+def deserialize_array(s: BinaryIO) -> Array:
     length = deserialize_len(s)
     arr = []
     for i in range(length):
@@ -62,7 +62,7 @@ def deserialize_array(s: BinaryIO) -> list:
 deserialize_list = deserialize_array
 
 
-def deserialize_assoc(s: BinaryIO) -> dict:
+def deserialize_assoc(s: BinaryIO) -> Associative:
     length = deserialize_len(s)
     assoc = {}
     for i in range(length):

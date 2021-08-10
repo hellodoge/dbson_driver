@@ -1,4 +1,5 @@
-from dbson.serializer import Serializable
+from typing import Union
+from dbson.data_types import Object, Associative
 
 SET_COMMAND = 'set'
 GET_COMMAND = 'get'
@@ -13,8 +14,9 @@ RESULT_OF_LABEL = 'result_of'
 SUCCESS_LABEL = 'success'
 
 
-def construct_set(*, collection_name: str, object_name: str,
-                  selector: str = "", **kwargs) -> Serializable:
+def construct_set(*, collection_name: Union[str, Associative],
+                  object_name: Union[str, Associative],
+                  selector: str = "", **kwargs) -> Object:
     command = {
         COMMAND_LABEL: SET_COMMAND,
         COLLECTION_LABEL: collection_name,
@@ -26,8 +28,9 @@ def construct_set(*, collection_name: str, object_name: str,
     return command
 
 
-def construct_get(*, collection_name: str, object_name: str,
-                  selector: str = "", **kwargs) -> Serializable:
+def construct_get(*, collection_name: Union[str, Associative],
+                  object_name: Union[str, Associative],
+                  selector: str = "", **kwargs) -> Object:
     command = {
         COMMAND_LABEL: GET_COMMAND,
         COLLECTION_LABEL: collection_name,
@@ -39,7 +42,7 @@ def construct_get(*, collection_name: str, object_name: str,
     return command
 
 
-def construct_ping(**kwargs) -> Serializable:
+def construct_ping(**kwargs) -> Object:
     command = {
         COMMAND_LABEL: PING_COMMAND,
         **kwargs

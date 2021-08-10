@@ -1,17 +1,11 @@
-from typing import Union, List, Dict, Sized
-from typing import BinaryIO
+from dbson.data_types import Object, Array, Associative
+from typing import Union, Sized, BinaryIO
 from io import BytesIO
 import warnings
 import struct
 
 
-Serializable = Union[int, float, str,
-                     List['Serializable'],
-                     Dict['Serializable', 'Serializable'],
-                     bool, None]
-
-
-def serialize(x: Serializable,
+def serialize(x: Object,
               buffer: Union[BinaryIO, None] = None) -> Union[bytes, None]:
     serializers = {
         int: serialize_int,
@@ -60,7 +54,7 @@ def serialize_str(s: str, buffer: BinaryIO):
     buffer.write(str_bytes)
 
 
-def serialize_array(lst: List[Serializable], buffer: BinaryIO):
+def serialize_array(lst: Array, buffer: BinaryIO):
     buffer.write(b'a')
     serialize_len(lst, buffer)
     for el in lst:
@@ -70,7 +64,7 @@ def serialize_array(lst: List[Serializable], buffer: BinaryIO):
 serialize_list = serialize_array
 
 
-def serialize_assoc(assoc: Dict[Serializable, Serializable],
+def serialize_assoc(assoc: Associative,
                     buffer: BinaryIO):
     buffer.write(b'o')
     serialize_len(assoc, buffer)

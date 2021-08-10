@@ -1,8 +1,9 @@
-import socket
-
-import dbson.commands as commands
+from dbson.data_types import Object, Associative
 from dbson.deserializer import deserialize
-from dbson.serializer import Serializable, serialize
+from dbson.serializer import serialize
+import dbson.commands as commands
+from typing import Union
+import socket
 
 
 class Client:
@@ -11,17 +12,19 @@ class Client:
         self.host = host
         self.port = port
 
-    def execute(self, command: Serializable) -> Serializable:
+    def execute(self, command: Object) -> Object:
         return self.send(command)
 
-    def set(self, *, collection_name: str, object_name: str,
+    def set(self, *, collection_name: Union[str, Associative],
+            object_name: Union[str, Associative],
             selector: str = "", **kwargs):
         command = commands.construct_set(collection_name=collection_name,
                                          object_name=object_name,
                                          selector=selector, **kwargs)
         return self.execute(command)
 
-    def get(self, *, collection_name: str, object_name: str,
+    def get(self, *, collection_name: Union[str, Associative],
+            object_name: Union[str, Associative],
             selector: str = "", **kwargs):
         command = commands.construct_get(collection_name=collection_name,
                                          object_name=object_name,
@@ -31,10 +34,10 @@ class Client:
     def ping(self, **kwargs):
         return self.execute(commands.construct_ping(**kwargs))
 
-    def send(self, data: Serializable) -> Serializable:
+    def send(self, data: Object) -> Object:
         return self.send_one_tcp(data)
 
-    def send_one_tcp(self, data: Serializable) -> Serializable:
+    def send_one_tcp(self, data: Object) -> Object:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect((self.host, self.port))
             buffered_io = s.makefile('wrb')
