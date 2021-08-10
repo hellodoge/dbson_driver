@@ -21,8 +21,6 @@ def construct_set(*, collection_name: str, object_name: str,
         OBJECT_NAME_LABEL: object_name,
         **kwargs
     }
-    if DATA_LABEL not in command and RESULT_OF_LABEL not in command:
-        raise KeyError('`data` or `result_of` was expected')
     if selector != "":
         command[SELECTOR_LABEL] = selector
     return command
