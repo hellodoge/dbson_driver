@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='dbson',
-    version='0.0.2',
+    version='0.0.3',
     author='waldemar',
     author_email='helldoge@tuta.io',
     packages=['dbson'],

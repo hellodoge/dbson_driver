@@ -1,6 +1,7 @@
 from typing import Union, List, Dict, Sized
 from typing import BinaryIO
 from io import BytesIO
+import warnings
 import struct
 
 
@@ -80,6 +81,8 @@ def serialize_assoc(assoc: Dict[Serializable, Serializable],
         # cannot sort, several types of keys
         pass
     for key, value in assoc_list:
+        if type(key) is not str:
+            warnings.warn("non string keys may not be supported by server")
         serialize(key, buffer)
         serialize(value, buffer)
 
